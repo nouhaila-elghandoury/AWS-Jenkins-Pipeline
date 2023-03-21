@@ -1,19 +1,26 @@
+#This code is a YAML configuration file for AWS CodeDeploy, known as an AppSpec file (appspec.yml). It defines how the application should be deployed and specifies 
+#the actions to be executed at different stages of the deployment process.
 version: 0.0
 
-os: linux
-files:
-  - source: /
-    destination: /web/
-hooks:
-  AfterInstall:
-    - location: scripts/mkdir.sh
-      timeout: 300
+os: linux  #Defines the operating system to be used for deployment (linux)
+files:     #This section specifies the files or directories to be copied from the source (e.g., from your CodeDeploy package) to the destination on the target server.
+  - source: /   #Specifies the root directory in the source package.
+    destination: /web/    #Specifies the /web/ directory on the target server where the source files will be copied
+hooks:  #This section defines scripts that will be executed at various stages of the deployment process.
+  AfterInstall:   #Specifies actions to be executed after the files are copied to the target server.
+    - location: scripts/mkdir.sh   #The path to the script scripts/mkdir.sh
+      timeout: 300   #The maximum time (in seconds) allowed for the script to run (300 seconds).
       runas: root
-  ApplicationStart:
-    - location: scripts/start_flask.sh
+  ApplicationStart:    #Specifies actions to be executed when starting the application
+    - location: scripts/start_flask.sh     #Specifies actions to be executed when stopping the application.
       timeout: 300
       runas: root
   ApplicationStop:
     - location: scripts/stop_flask1.sh
       timeout: 300
       runas: root
+      
+      
+      #In summary, this AppSpec file defines a deployment process for a Linux environment where the application files are copied to the /web/ directory. 
+      #After the installation, a script (mkdir.sh) is executed, and when starting and stopping the application, the start_flask.sh and stop_flask1.sh scripts are executed,
+      #respectively. All scripts are run with root privileges and have a 300-second timeout.
