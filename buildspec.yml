@@ -1,17 +1,21 @@
+#This YAML code is a buildspec file for AWS CodeBuild, which defines the build process for your application. AWS CodeBuild uses this buildspec file to understand 
+#how to build, test, and package your application.
 version: 0.2
-phases:
-  install:
+phases:  #This section defines different phases of the build process, such as install, build, and post_build.
+  install: #This phase contains commands to set up the build environment. In this case, it installs Flask, a popular Python web framework, 
+           #using the command python -m pip install Flask.
+
     commands:
         - python -m pip install Flask
-  build:
+  build:    #This phase contains commands for building and testing the application
     commands:
-      - echo Build started on `date`
+      - echo Build started on `date`   #This command prints the current date and time to indicate the start of the build process.
       - echo Compiling the Python code...
-      - python test_app.py
+      - python test_app.py   #This command runs the Python script test_app.py to test the application.
   post_build:
     commands:
       - echo Build completed on `date`
-artifacts:
+artifacts:   #This section defines the output artifacts of the build process. These are the files that will be packaged and stored as build artifacts.
   files:
     - web.py
     - appspec.yml
@@ -21,3 +25,6 @@ artifacts:
     - scripts/start_flask.sh
     - scripts/stop_flask1.sh
     - scripts/stop_flask.py
+
+# this buildspec file sets up a build environment with Flask installed, runs the test_app.py script to test the application, and packages the listed files as
+#build artifacts.
